@@ -25,11 +25,15 @@ class Libro
     #[ORM\Column(nullable: true)]
     private ?int $unidadesVendidas = null;
 
-    #[ORM\ManyToMany(targetEntity: Autor::class, inversedBy: 'libros')]
-    private Collection $autores;
+
 
     #[ORM\ManyToOne(inversedBy: 'libros')]
     private ?Editorial $editorial = null;
+
+    #[ORM\ManyToMany(targetEntity: Autor::class, inversedBy: 'libros')]
+    private Collection $autores;
+
+
 
     public function __construct()
     {
@@ -70,9 +74,21 @@ class Libro
         return $this->unidadesVendidas;
     }
 
-    public function setUnidadesVendidas(?int $unidades_vendidas): static
+    public function setUnidadesVendidas(?int $unidadesVendidas): static
     {
-        $this->unidadesVendidas = $unidades_vendidas;
+        $this->unidadesVendidas = $unidadesVendidas;
+
+        return $this;
+    }
+
+    public function getEditorial(): ?Editorial
+    {
+        return $this->editorial;
+    }
+
+    public function setEditorial(?Editorial $editorial): static
+    {
+        $this->editorial = $editorial;
 
         return $this;
     }
@@ -97,18 +113,6 @@ class Libro
     public function removeAutore(Autor $autore): static
     {
         $this->autores->removeElement($autore);
-
-        return $this;
-    }
-
-    public function getEditorial(): ?Editorial
-    {
-        return $this->editorial;
-    }
-
-    public function setEditorial(?Editorial $editorial): static
-    {
-        $this->editorial = $editorial;
 
         return $this;
     }
