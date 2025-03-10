@@ -3,35 +3,140 @@
 {% block title %}Hello ConsultasController!
 {% endblock %}
 
-{% block body %}	
+{% block body %}
 
 	<div class="example-wrapper">
 		<h1>Hello
 			{{ controller_name }}! ✅</h1>
 
-		<table class="table">
-			<thead>
-				<th>
-					Nombre
-				</th>
-				<th>
-					Fecha nacimiento
-				</th>
-			</thead>
-			<tbody>
-				{% for autor in autores %}
-					<tr>
-						<td>
-							{{autor.nombre}}
-						</td>
-						<td>
-							{{autor.fechaNacimiento |date('Y-m-d')}}
-						</td>
+		{% if autores is  defined  %}
 
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+			<table class="table">
+				<thead>
+					<th>
+						Nombre
+					</th>
+					<th>
+						Fecha nacimiento
+					</th>
+				</thead>
+				<tbody>
+					{% for autor in autores %}
+						<tr>
+							<td>
+								{{autor.nombre}}
+							</td>
+							<td>
+								{{autor.fechaNacimiento |date('Y-m-d')}}
+							</td>
 
-	</div>
-{% endblock %}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+
+		{% if maxVentas is defined %}
+			<p>
+				El nº máximo de ventas es :
+				{{maxVentas}}
+			{% endif %}
+
+
+			{% if autoresVentas is  defined  %}
+
+				<table class="table">
+					<thead>
+						<th>
+							Nombre
+						</th>
+						<th>
+							Fecha nacimiento
+						</th>
+					</thead>
+					<tbody>
+						{% for autor in autoresVentas %}
+							<tr>
+								<td>
+									{{autor.nombre}}
+								</td>
+								<td>
+									{{autor.fechaNacimiento |date('Y-m-d')}}
+								</td>
+
+							</tr>
+
+
+						{% endfor %}
+					</tbody>
+				</table>
+
+
+			{% endif %}
+
+			{% if autoresVentasSuma is defined %}
+				<table class="table">
+					<thead>
+						<th>
+							Nombre
+						</th>
+						<th>
+							Fecha nacimiento
+						</th>
+						<th>
+							Suma unidades vendidas
+						</th>
+					</thead>
+					<tbody>
+						{% for fila in autoresVentasSuma %}
+							<tr>
+								<td>
+									{{fila[0].nombre}}
+								</td>
+								<td>
+									{{fila[0].fechaNacimiento |date('Y-m-d')}}
+								</td>
+								<td>
+									{{fila[1]}}
+								</td>
+
+							</tr>
+
+
+						{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
+
+			{% if autoresSuperVentas is defined %}
+			<table class="table">
+					<thead>
+						<th>
+							Nombre
+						</th>
+						<th>
+							Fecha nacimiento
+						</th>
+						
+					</thead>
+					<tbody>
+						{% for autor in autoresSuperVentas %}
+							<tr>
+								<td>
+									{{autor.nombre}}
+								</td>
+								<td>
+									{{autor.fechaNacimiento |date('Y-m-d')}}
+								</td>
+								
+
+							</tr>
+
+
+						{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
+
+		</div>
+	{% endblock %}

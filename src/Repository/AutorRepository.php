@@ -30,6 +30,32 @@ class AutorRepository extends ServiceEntityRepository
 
     }
 
+    public function findByVentas(int $ventas):array{
+        
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT a FROM App\Entity\Autor a join a.libros l WHERE l.unidadesVendidas > ?1");
+        return $query->setParameter(1, $ventas)->getResult();
+
+    }
+
+    
+    public function findByVentas4(int $ventas):array{
+        
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT a, sum(l.unidadesVendidas) FROM App\Entity\Autor a join a.libros l WHERE l.unidadesVendidas > ?1 group by a.id");
+        return $query->setParameter(1, $ventas)->getResult();
+
+    }
+
+
+    public function findAutoresSuperventas():array{
+        
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT a FROM App\Entity\Autor a join a.libros l WHERE l.unidadesVendidas = (select max(l2.unidadesVendidas) from App\Entity\Libro l2 )");
+        return $query->getResult();
+
+    }
+
     //    /**
     //     * @return Autor[] Returns an array of Autor objects
     //     */

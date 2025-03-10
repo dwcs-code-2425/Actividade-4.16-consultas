@@ -21,6 +21,12 @@ class LibroRepository extends ServiceEntityRepository
         parent::__construct($registry, Libro::class);
     }
 
+
+    public function findMaxUnidades(){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT max(li.unidadesVendidas) FROM App\Entity\Libro li");
+        return $query->getSingleScalarResult();
+    }
     //    /**
     //     * @return Libro[] Returns an array of Libro objects
     //     */
