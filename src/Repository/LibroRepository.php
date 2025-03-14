@@ -27,6 +27,14 @@ class LibroRepository extends ServiceEntityRepository
         $query = $em->createQuery("SELECT max(li.unidadesVendidas) FROM App\Entity\Libro li");
         return $query->getSingleScalarResult();
     }
+
+    public function findMaxUnidadesQB(){
+       return  $this->createQueryBuilder("libro")
+            ->select("max(libro.unidadesVendidas)")
+            ->getQuery()
+            ->getSingleScalarResult();
+      
+    }
     //    /**
     //     * @return Libro[] Returns an array of Libro objects
     //     */

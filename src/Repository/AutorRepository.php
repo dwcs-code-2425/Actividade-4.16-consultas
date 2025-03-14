@@ -30,6 +30,19 @@ class AutorRepository extends ServiceEntityRepository
 
     }
 
+    public function findByFechaNacQB(DateTime $fechaNac):array{
+
+        $query = $this->createQueryBuilder("a")
+            ->where("a.fechaNacimiento >= :fechaNac")
+            ->orderBy("a.fechaNacimiento")
+            ->setParameter("fechaNac", $fechaNac)
+            ->getQuery();
+
+       return $query->getResult();
+       
+
+    }
+
     public function findByVentas(int $ventas):array{
         
         $em = $this->getEntityManager();
@@ -38,12 +51,41 @@ class AutorRepository extends ServiceEntityRepository
 
     }
 
+    public function findByVentasQB(int $ventas):array{
+
+        return $this->createQueryBuilder("a")
+        //->addSelect("li")
+        //En esta consulta no es necesario cargar los libros en la propiedad
+        //libros de autor, pero se podrían cargar usando addSelect
+            ->join("a.libros", "li")
+            ->where("li.unidadesVendidas > ?1")
+            ->setParameter(1, $ventas)
+            ->getQuery()
+            ->getResult();
+      
+    }
+
+
     
     public function findByVentas4(int $ventas):array{
         
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT a, sum(l.unidadesVendidas) FROM App\Entity\Autor a join a.libros l WHERE l.unidadesVendidas > ?1 group by a.id");
         return $query->setParameter(1, $ventas)->getResult();
+
+    }
+
+
+    public function findByVentas4QB(int $ventas):array{
+        
+        return $this->createQueryBuilder("a")
+        ->addSelect("sum(li.unidadesVendidas)")
+            ->join("a.libros", "li")
+            ->where("li.unidadesVendidas > ?1")
+            ->setParameter(1, $ventas)
+            ->groupBy("a.id")
+            ->getQuery()
+            ->getArrayResult();
 
     }
 
